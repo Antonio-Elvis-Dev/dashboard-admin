@@ -7,5 +7,6 @@ import AppRoutes from "./app.routes";
 export default function RoutesApp() {
   const { signed } = useContext(AuthContext);
 
-  return signed? <AppRoutes />:<AuthRoutes/>
+  return  <AppRoutes />
+  // return signed? <AppRoutes />:<AuthRoutes/>
 }

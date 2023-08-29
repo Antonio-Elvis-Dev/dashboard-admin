@@ -1,10 +1,18 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/auth";
-import DrawerMenu from "../../components/drawer";
+import Sidebar from "../../components/sidebar";
 
-import { Alert, Button,  } from "flowbite-react";
-export default function Home() {
+const Home = () => {
   const { logout } = useContext(AuthContext);
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const openSidebar = () => {
+    setSidebarOpen(true);
+  };
+  const closeSidebar =()=>{
+    setSidebarOpen(false)
+  }
+
 
   async function handleLogout() {
     logout();
@@ -12,10 +20,10 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <DrawerMenu/>
+      <Sidebar/>
       <h1>Home</h1>
-      
-      </div>
-    
+    </div>
   );
-}
+};
+
+export default Home;
