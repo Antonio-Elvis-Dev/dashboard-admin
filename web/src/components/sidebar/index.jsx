@@ -1,18 +1,21 @@
-import "./sidebar.css";
-
 import { RiSettings4Line } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
 import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
-import { MdOutlineDashboard } from "react-icons/md";
+import { MdOutlineDashboard, MdLogout } from "react-icons/md";
 
 import { HiMenuAlt3 } from "react-icons/hi";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/auth";
 
 function Sidebar({ sidebarOpen, closeSidebar }) {
   const [openSidebar, setOpenSidebar] = useState(true);
+  const { logout } = useContext(AuthContext);
 
+  async function handleLogout(){
+    logout()
+  }
   const menus = [
     { name: "Dashboard", link: "#", icon: MdOutlineDashboard },
     { name: "User", link: "#", icon: AiOutlineUser },
@@ -22,6 +25,7 @@ function Sidebar({ sidebarOpen, closeSidebar }) {
     { name: "Cart", link: "#", icon: FiShoppingCart },
     { name: "Saved", link: "#", icon: AiOutlineHeart },
     { name: "Setting", link: "#", icon: RiSettings4Line },
+    { name: "Logout", link: "#", icon: MdLogout, color: "#c72929" },
   ];
   return (
     <section className="flex gap-6">
@@ -45,15 +49,24 @@ function Sidebar({ sidebarOpen, closeSidebar }) {
               className={`${
                 menu?.margin && "mt-5"
               } group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
+              onClick={`${menu?.color?(()=>handleLogout):""}`}
             >
               <div className="">
-                {React.createElement(menu?.icon, { size: "20" })}
+                {React.createElement(menu?.icon, {
+                  size: "20",
+                  color: `${menu.color}`,
+                })}
               </div>
               <h2
                 className={`whitespace-pre duration-500 ${
+                  menu?.color ? `font-bold text-base` : ""
+                }  ${
                   !openSidebar && "opacity-0 translate-x-28 overflow-hidden"
                 }`}
-                style={{ transitionDelay: `${i + 3}00ms` }}
+                style={{
+                  transitionDelay: `${i + 3}00ms`,
+                  color: `${menu?.color}`,
+                }}
               >
                 {menu?.name}
               </h2>
