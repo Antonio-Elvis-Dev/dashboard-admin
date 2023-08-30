@@ -19,9 +19,9 @@ const Home = () => {
   }
 
   return (
-    <div className="flex flex-col">
-      <Sidebar/>
-      <h1>Home</h1>
+    <div className="flex">
+      <Sidebar sidebarOpen={sidebarOpen} closeSidebar={closeSidebar}/>
+      Main
     </div>
   );
 };

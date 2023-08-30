@@ -1,4 +1,4 @@
-@import url("https://fonts.goolgeapis.com/css2?family=Lato:wght@300;400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap');
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -27,8 +27,7 @@
 body {
   box-sizing: border-box;
   font-family: "Lato", sans-serif;
-  /* background: #1f2937; */
-  /* color: rgb(167, 126, 126); */
+  
 }
 
 .text-primary-p {
