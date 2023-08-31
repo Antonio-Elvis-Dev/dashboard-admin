@@ -1,7 +1,12 @@
 import { RiSettings4Line } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
-import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
+import {
+  FiMessageSquare,
+  FiFolder,
+  FiShoppingCart,
+  FiLogOut,
+} from "react-icons/fi";
 import { MdOutlineDashboard, MdLogout } from "react-icons/md";
 
 import { HiMenuAlt3 } from "react-icons/hi";
@@ -9,23 +14,22 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/auth";
 
-function Sidebar({ sidebarOpen, closeSidebar }) {
+function SidebarMenu() {
   const [openSidebar, setOpenSidebar] = useState(true);
   const { logout } = useContext(AuthContext);
 
-  async function handleLogout(){
-    logout()
+  async function handleLogout() {
+    logout();
   }
   const menus = [
-    { name: "Dashboard", link: "#", icon: MdOutlineDashboard },
+    { name: "Home", link: "/home", icon: MdOutlineDashboard },
     { name: "User", link: "#", icon: AiOutlineUser },
-    { name: "Messages", link: "#", icon: FiMessageSquare },
-    { name: "Analytics", link: "#", icon: TbReportAnalytics, margin: true },
-    { name: "File Manager", link: "#", icon: FiFolder },
-    { name: "Cart", link: "#", icon: FiShoppingCart },
+    // { name: "Messages", link: "#", icon: FiMessageSquare },
+    // { name: "Analytics", link: "#", icon: TbReportAnalytics },
+    { name: "Produtos", link: "/products", icon: FiFolder, margin: true },
+    // { name: "Cart", link: "#", icon: FiShoppingCart },
     { name: "Saved", link: "#", icon: AiOutlineHeart },
     { name: "Setting", link: "#", icon: RiSettings4Line },
-    { name: "Logout", link: "#", icon: MdLogout, color: "#c72929" },
   ];
   return (
     <section className="flex gap-6">
@@ -49,7 +53,6 @@ function Sidebar({ sidebarOpen, closeSidebar }) {
               className={`${
                 menu?.margin && "mt-5"
               } group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
-              onClick={`${menu?.color?(()=>handleLogout):""}`}
             >
               <div className="">
                 {React.createElement(menu?.icon, {
@@ -79,6 +82,35 @@ function Sidebar({ sidebarOpen, closeSidebar }) {
               </h2>
             </Link>
           ))}
+          <div
+            className=" group flex items-center  gap-3.5  p-2 hover:bg-gray-800 rounded-md text-red-800 text-lg font-bold border border-red-400 cursor-pointer"
+            onClick={handleLogout}
+          >
+            <div className="">
+                {React.createElement(FiLogOut, {
+                  size: "20",
+                  color: `rgb(155 28 28)`,
+                })}
+              </div>
+            <h2
+              className={`whitespace-pre duration-500  ${
+                !openSidebar && "opacity-0 translate-x-28 overflow-hidden"
+              }`}
+              style={{
+                transitionDelay: `900ms`,
+                color: `rgb(155 28 28)`,
+              }}
+            >
+              Logout
+            </h2>
+            <h2
+              className={` ${
+                openSidebar && "hidden"
+              } absolute left-40 w-0 overflow-hidden  bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
+            >
+              Logout
+            </h2>
+          </div>
         </div>
       </div>
 
@@ -87,4 +119,4 @@ function Sidebar({ sidebarOpen, closeSidebar }) {
   );
 }
 
-export default Sidebar;
+export default SidebarMenu;

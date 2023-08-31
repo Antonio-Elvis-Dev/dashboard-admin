@@ -13,14 +13,14 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col h-screen items-center justify-center">
+    <div className="flex flex-col h-screen items-center justify-center bg-gray-950">
       <div className="flex flex-col border p-32 rounded-md bg-zinc-800 shadow-md shadow-zinc-700"
       
       style={{
         backgroundColor: "#111827",
       }}
       >
-        <label htmlFor="" className="font-bold mb-2 text-3xl">
+        <label htmlFor="" className="font-bold mb-2 text-3xl text-zinc-200">
           Usuário
         </label>
         <input
@@ -30,7 +30,7 @@ export default function Login() {
           value={user}
           onChange={(text)=>setUser(text.target.value)}
         />
-        <label htmlFor="" className="font-bold mb-2 text-3xl">
+        <label htmlFor="" className="font-bold mb-2 text-3xl text-zinc-200">
           Password
         </label>
         <input
