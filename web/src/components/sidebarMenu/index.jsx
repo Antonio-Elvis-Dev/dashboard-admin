@@ -1,15 +1,19 @@
-import { RiSettings4Line } from "react-icons/ri";
-import { TbReportAnalytics } from "react-icons/tb";
-import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
+import { RiSettings4Line, RiChatNewLine } from "react-icons/ri";
+import { TbReportAnalytics, TbBox } from "react-icons/tb";
+import { AiOutlineUser } from "react-icons/ai";
 import {
   FiMessageSquare,
   FiFolder,
+  
   FiShoppingCart,
   FiLogOut,
+  FiBox
 } from "react-icons/fi";
-import { MdOutlineDashboard, MdLogout } from "react-icons/md";
+import { MdOutlineDashboard, MdLogout, } from "react-icons/md";
 
 import { HiMenuAlt3 } from "react-icons/hi";
+
+import {FaPlusSquare, FaFolderPlus} from 'react-icons/fa'
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/auth";
@@ -24,18 +28,19 @@ function SidebarMenu() {
   const menus = [
     { name: "Home", link: "/home", icon: MdOutlineDashboard },
     { name: "User", link: "#", icon: AiOutlineUser },
-    // { name: "Messages", link: "#", icon: FiMessageSquare },
-    // { name: "Analytics", link: "#", icon: TbReportAnalytics },
-    { name: "Produtos", link: "/products", icon: FiFolder, margin: true },
-    // { name: "Cart", link: "#", icon: FiShoppingCart },
-    { name: "Saved", link: "#", icon: AiOutlineHeart },
-    { name: "Setting", link: "#", icon: RiSettings4Line },
+    { name: "Produtos", link: "/products", icon: FiBox, marginT: true },
+    { name: "Novo Produto", link: "/newproduct", icon: FaFolderPlus },
+    { name: "Pedidos", link: "/requests", icon: TbReportAnalytics },
+    { name: "Novo Pedido", link: "/newrequest", icon: FaPlusSquare },
+
+    // { name: "Saved", link: "#", icon: AiOutlineHeart },
+    { name: "Setting", link: "#", icon: RiSettings4Line, marginB:true },
   ];
   return (
     <section className="flex gap-6">
       <div
         className={`bg-[#0e0e0e] min-h-screen ${
-          openSidebar ? " w-72" : "w-16"
+          openSidebar ? " w-48" : "w-16"
         } text-gray-100 px-4  duration-500 `}
       >
         <div className="py-3 flex justify-end">
@@ -51,8 +56,8 @@ function SidebarMenu() {
               to={menu?.link}
               key={i}
               className={`${
-                menu?.margin && "mt-5"
-              } group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
+                menu?.marginT && "mt-5"
+              } ${menu?.marginB && 'mb-10'} group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
             >
               <div className="">
                 {React.createElement(menu?.icon, {
