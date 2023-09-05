@@ -29,9 +29,7 @@ function SidebarMenu() {
     { name: "Home", link: "/home", icon: MdOutlineDashboard },
     { name: "User", link: "#", icon: AiOutlineUser },
     { name: "Produtos", link: "/products", icon: FiBox, marginT: true },
-    { name: "Novo Produto", link: "/newproduct", icon: FaFolderPlus },
     { name: "Pedidos", link: "/requests", icon: TbReportAnalytics },
-    { name: "Novo Pedido", link: "/newrequest", icon: FaPlusSquare },
 
     // { name: "Saved", link: "#", icon: AiOutlineHeart },
     { name: "Setting", link: "#", icon: RiSettings4Line, marginB:true },

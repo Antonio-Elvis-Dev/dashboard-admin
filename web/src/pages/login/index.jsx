@@ -4,11 +4,11 @@ import { AuthContext } from "../../contexts/auth";
 export default function Login() {
   const { login } = useContext(AuthContext);
 
-  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   function handleLogin(){
-    login(user,password)
+    login(email,password)
     
   }
 
@@ -27,8 +27,8 @@ export default function Login() {
           type="text"
           placeholder="fulano"
           className="border p-3 mb-4 rounded-md w-72 required text-2xl"
-          value={user}
-          onChange={(text)=>setUser(text.target.value)}
+          value={email}
+          onChange={(text)=>setEmail(text.target.value)}
         />
         <label htmlFor="" className="font-bold mb-2 text-3xl text-zinc-200">
           Password

@@ -7,21 +7,25 @@ import cookies from "js-cookie";
 export const AuthContext = createContext({});
 
 export default function AuthProvider({ children }) {
-  const [auth, setAuth] = useState(!!cookies.get("authToken"));
+  const [auth, setAuth] = useState(cookies.get("authToken"));
+
+  const [categorys, setCategorys] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const storageToken = localStorage.getItem("token");
+
 
     if (storageToken) {
       setAuth(true);
     }
   }, []);
 
-  async function login(user, password) {
+  async function login(email, password) {
     try {
-      const userData = await api.post("/login", {
-        email: user,
+      const userData = await api.post("/session", {
+        email,
         password,
       });
 
@@ -35,6 +39,21 @@ export default function AuthProvider({ children }) {
     }
   }
 
+  async function searchCategory() {
+    try {
+      const categorys = await api.get("/category", {
+        headers: {
+          Authorization: `Bearer ${auth}`,
+        },
+      });
+
+      setCategorys(categorys?.data);
+      console.log(categorys?.data)
+    } catch (error) {
+      console.log(`${error}`);
+    }
+  }
+
   async function logout() {
     cookies.remove("authToken");
     localStorage.removeItem("token");
@@ -43,7 +62,7 @@ export default function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ login, logout, signed: !!auth }}>
+    <AuthContext.Provider value={{ login, logout,searchCategory, categorys, signed: !!auth }}>
       {children}
     </AuthContext.Provider>
   );
