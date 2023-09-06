@@ -1,25 +1,31 @@
 import { useState, createContext, useEffect } from "react";
 import { api } from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 import cookies from "js-cookie";
 
 export const AuthContext = createContext({});
 
 export default function AuthProvider({ children }) {
-  const [auth, setAuth] = useState(cookies.get("authToken"));
+  const [auth, setAuth] = useState();
 
-  const [categorys, setCategorys] = useState("");
+  const [tokenUser, setTokenUser] = useState('')
+
+  const [categories, setCategories] = useState("");
+
+  const [returnCategory, setReturnCategory] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const storageToken = localStorage.getItem("token");
 
-
     if (storageToken) {
-      setAuth(true);
+      setAuth(storageToken);
     }
+    api.defaults.headers["Authorization"] = `Bearer ${storageToken}`;
+
+    searchCategory();
   }, []);
 
   async function login(email, password) {
@@ -29,10 +35,14 @@ export default function AuthProvider({ children }) {
         password,
       });
 
+      
+      // console.log(userData.data);
+      api.defaults.headers["Authorization"] = `Bearer ${userData.data.token}`;
+      
       cookies.set("authToken", userData.data.token);
-
-      setAuth(userData.data);
       localStorage.setItem("token", userData.data.token);
+      setAuth(userData?.data?.token);
+      setTokenUser(userData?.data?.token)
       navigate("/home");
     } catch (error) {
       console.log(error);
@@ -41,19 +51,28 @@ export default function AuthProvider({ children }) {
 
   async function searchCategory() {
     try {
-      const categorys = await api.get("/category", {
-        headers: {
-          Authorization: `Bearer ${auth}`,
-        },
-      });
-
+      const categorys = await api.get("/category");
+      api.defaults.headers["Authorization"] = `Bearer ${tokenUser}`;
       setCategorys(categorys?.data);
-      console.log(categorys?.data)
     } catch (error) {
       console.log(`${error}`);
     }
   }
 
+  async function createCategory(name) {
+    if (name == "") {
+      alert('Nome inválido')
+    }else{
+
+      
+      try {
+        const response = await api.post("/category", { name });
+        setReturnCategory(response?.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
   async function logout() {
     cookies.remove("authToken");
     localStorage.removeItem("token");
@@ -62,7 +81,16 @@ export default function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ login, logout,searchCategory, categorys, signed: !!auth }}>
+    <AuthContext.Provider
+      value={{
+        login,
+        logout,
+        searchCategory,
+        createCategory,
+        categories,
+        signed: !!auth,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

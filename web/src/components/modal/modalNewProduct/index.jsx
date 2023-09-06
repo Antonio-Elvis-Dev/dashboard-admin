@@ -1,11 +1,26 @@
 import React, { useContext, useState } from "react";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { AuthContext } from "../../../contexts/auth";
-export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
-  const { categorys } = useContext(AuthContext);
 
+export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
+  const { categorys, createCategory ,searchCategory} = useContext(AuthContext);
+
+  const [nomeCategory, setNomeCategory] = useState("");
+
+  const [codProd, setCodProd] = useState("");
+  const [nomeProd, setNomeProd] = useState("");
+  const [valorProd, setValorProd] = useState("");
+  const [categoryProd, setCategoryProd] = useState("");
+
+  function handleCreateCategory() {
+    createCategory(nomeCategory);
+  }
+
+  function handleSearchCategory(){
+    searchCategory()
+  }
+  
   if (isOpen) {
-    console.log(categorys)
     return (
       <div
         className=" flex items-center justify-center  text-zinc-50 fixed bottom-0 left-0 top-0 right-0 bg-black bg-opacity-60"
@@ -18,7 +33,6 @@ export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
               onClick={setOpenModal}
               className="hover:bg-zinc-700 rounded-sm"
             >
-              {" "}
               <AiFillCloseSquare size={30} />
             </button>
           </div>
@@ -40,12 +54,15 @@ export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
                     id="nome"
                     type="text"
                     placeholder="nome"
+                    value={nomeCategory}
+                    onChange={(e) => setNomeCategory(e.target.value)}
                     className="w-full rounded-md focus:ring text-zinc-950 focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                   />
                 </div>
 
                 <div className="col-span-full  items-center justify-center">
                   <button
+                    onClick={handleCreateCategory}
                     type="button"
                     className="w-full rounded-md dark:border-gray-700 bg-violet-900 p-2  text-lg text-zinc-50"
                   >
@@ -67,6 +84,8 @@ export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
                     id="codigo"
                     type="number"
                     placeholder="ex: 56887"
+                    value={codProd}
+                    onChange={(e) => setCodProd(e.target.value)}
                     className="w-full rounded-md text-zinc-950 focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                   />
                 </div>
@@ -78,14 +97,26 @@ export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
                     id="nome"
                     type="text"
                     placeholder="nome"
+                    value={nomeProd}
+                    onChange={(e) => setNomeProd(e.target.value)}
                     className="w-full rounded-md focus:ring text-zinc-950 focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                   />
                 </div>
                 <div className="col-span-full sm:col-span-3">
                   <label htmlFor="category" className="text-lg">
-                    Categoria
+                    Categoria: <nbsp />
                   </label>
-                 <select>Teste</select>
+                  <select
+                    className="bg-neutral-700 rounded-lg"
+                    value={categoryProd}
+                    onChange={(e) => setCategoryProd(e.target.value)}
+                  >
+                    {categorys.map((category, index) => (
+                      <option key={index} value={category?.id}>
+                        {category?.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="col-span-full sm:col-span-3">
@@ -96,6 +127,8 @@ export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
                     id="valor"
                     type="number"
                     placeholder="valor"
+                    value={valorProd}
+                    onChange={(e) => setValorProd(e.target.value)}
                     className="w-full rounded-md focus:ring focus:ri focus:ri text-zinc-950 dark:border-gray-700 dark:text-gray-900"
                   />
                 </div>
