@@ -9,23 +9,20 @@ export const AuthContext = createContext({});
 export default function AuthProvider({ children }) {
   const [auth, setAuth] = useState();
 
-  const [tokenUser, setTokenUser] = useState('')
-
   const [categories, setCategories] = useState("");
-
-  const [returnCategory, setReturnCategory] = useState("");
+  const [products, setProducts] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storageToken = localStorage.getItem("token");
+    const tokenCookie = cookies.get("authToken");
 
-    if (storageToken) {
-      setAuth(storageToken);
+    if (tokenCookie) {
+      setAuth(tokenCookie);
     }
-    api.defaults.headers["Authorization"] = `Bearer ${storageToken}`;
-
+    api.defaults.headers["Authorization"] = `Bearer ${tokenCookie}`;
     searchCategory();
+    // searchProducts();
   }, []);
 
   async function login(email, password) {
@@ -35,15 +32,14 @@ export default function AuthProvider({ children }) {
         password,
       });
 
-      
-      // console.log(userData.data);
       api.defaults.headers["Authorization"] = `Bearer ${userData.data.token}`;
-      
+
       cookies.set("authToken", userData.data.token);
-      localStorage.setItem("token", userData.data.token);
+
       setAuth(userData?.data?.token);
-      setTokenUser(userData?.data?.token)
+
       navigate("/home");
+      searchCategory();
     } catch (error) {
       console.log(error);
     }
@@ -51,30 +47,59 @@ export default function AuthProvider({ children }) {
 
   async function searchCategory() {
     try {
-      const categorys = await api.get("/category");
-      api.defaults.headers["Authorization"] = `Bearer ${tokenUser}`;
-      setCategorys(categorys?.data);
+      let categories = await api.get("/category");
+
+      setCategories(categories?.data);
+      // console.log(categories.data)
     } catch (error) {
       console.log(`${error}`);
     }
   }
 
+  async function searchProducts() {
+
+    try {
+      let products = await api.get("/products");
+
+      setProducts(products?.data);
+      console.log(products?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async function createCategory(name) {
     if (name == "") {
-      alert('Nome inválido')
-    }else{
-
-      
+      alert("Nome inválido");
+    } else {
       try {
         const response = await api.post("/category", { name });
-        setReturnCategory(response?.data);
+        alert(`Categoria "${response.data.name}" criada `);
       } catch (error) {
         console.log(error);
       }
     }
   }
+
+  async function createProduct(codProd, name, price, category_id) {
+    if (name == "" || price == "" || category_id == "" || codProd == "") {
+      alert("Campo invalido");
+    } else {
+      try {
+        const response = await api.post("/product", {
+          name,
+          price,
+          category_id,
+          codigoProd: codProd,
+        });
+        alert(`Produto "${response.data.name}" criado`);
+      } catch (error) {
+        alert(error);
+      }
+    }
+  }
+
   async function logout() {
-    cookies.remove("authToken");
+    // cookies.remove("authToken");
     localStorage.removeItem("token");
     setAuth(null);
     navigate("/");
@@ -86,7 +111,10 @@ export default function AuthProvider({ children }) {
         login,
         logout,
         searchCategory,
+        searchProducts,
         createCategory,
+        createProduct,
+        products,
         categories,
         signed: !!auth,
       }}

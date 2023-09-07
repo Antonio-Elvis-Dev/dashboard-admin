@@ -6,10 +6,10 @@ import { AuthContext } from "../../contexts/auth";
 export default function Product() {
   const [openModal, setOpenModal] = useState(false);
 
-  const { searchCategory, categories } = useContext(AuthContext);
+  const { searchProducts, products } = useContext(AuthContext);
 
   // const testeLista = [{"1","teste
-
+console.log(products)
   const [teste, setTeste] = useState([
     { id: 1, cod: 1, nome: "teste", valor: "20,00" },
   ]);
@@ -17,6 +17,10 @@ export default function Product() {
     setOpenModal(!openModal);
   }
 
+  
+  function handleSearchProduct(){
+    searchProducts()
+  }
   return (
     <div className="flex bg-zinc-300">
       <SidebarMenu />
@@ -46,7 +50,7 @@ export default function Product() {
               <div className=" flex justify-around col-span-full  items-center ">
                 <button
                   type="button"
-                  onClick={searchCategory}
+                  onClick={handleSearchProduct}
                   className="w-1/3 rounded-md dark:border-gray-700 bg-violet-900 p-2 text-zinc-50 text-lg hover:bg-violet-600 transition duration-500"
                 >
                   Buscar
@@ -62,41 +66,27 @@ export default function Product() {
             </div>
           </fieldset>
         </form>
-        <div className="modal flex flex-col w-full ">
-          <table>
+        <div className=" relative min-h-1 float-left pr-3 pl-3">
+          <table className=" w-full  table-auto	">
             <thead>
-              <tr>
-                <th>Id</th>
+              <tr className="">
+                <th >Id</th>
                 <th>Cód</th>
                 <th>Nome</th>
                 <th>Valor</th>
               </tr>
             </thead>
             <tbody>
-              {teste.map((item, index) => (
-                <tr key={index} className=" ">
-                  <td>{item.id}</td>
-                  <td>{item.cod}</td>
-                  <td>{item.nome}</td>
-                  <td>R${item.valor}</td>
+              {products.map((item, index) => (
+                <tr  key={index} className=" ">
+                  <td>{index+1}</td>
+                  <td>{item.codigoProd}</td>
+                  <td>{item.name}</td>
+                  <td>R${item.price}</td>
                 </tr>
               ))}
               
-              <tr>
-                <td>Teste</td>
-                <td>Teste</td>
-                <td>Teste</td>
-                <td>Teste</td>
-              </tr>
-              <tr>
-                <td>Teste</td>
-                <td>Teste</td>
-                <td>Teste</td>
-                <td>Teste</td>
-              </tr>
-              <tr>
-                <td>Teste</td>
-              </tr>
+             
             </tbody>
           </table>
         </div>

@@ -3,7 +3,7 @@ import { AiFillCloseSquare } from "react-icons/ai";
 import { AuthContext } from "../../../contexts/auth";
 
 export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
-  const { categorys, createCategory ,searchCategory} = useContext(AuthContext);
+  const { categories, createCategory, createProduct } = useContext(AuthContext);
 
   const [nomeCategory, setNomeCategory] = useState("");
 
@@ -14,12 +14,16 @@ export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
 
   function handleCreateCategory() {
     createCategory(nomeCategory);
-  }
 
-  function handleSearchCategory(){
-    searchCategory()
+    setNomeCategory("");
   }
-  
+  function handleCreateProduct() {
+    createProduct(codProd, nomeProd, valorProd, categoryProd);
+    setCategoryProd("");
+    setCodProd("");
+    setNomeProd("");
+    setValorProd("");
+  }
   if (isOpen) {
     return (
       <div
@@ -104,14 +108,17 @@ export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
                 </div>
                 <div className="col-span-full sm:col-span-3">
                   <label htmlFor="category" className="text-lg">
-                    Categoria: <nbsp />
+                    Categoria:
                   </label>
                   <select
                     className="bg-neutral-700 rounded-lg"
                     value={categoryProd}
                     onChange={(e) => setCategoryProd(e.target.value)}
                   >
-                    {categorys.map((category, index) => (
+                    <option value="" selected>
+                      Selecione Categoria
+                    </option>
+                    {categories.map((category, index) => (
                       <option key={index} value={category?.id}>
                         {category?.name}
                       </option>
@@ -135,6 +142,7 @@ export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
                 <div className="col-span-full  items-center justify-center">
                   <button
                     type="button"
+                    onClick={handleCreateProduct}
                     className="w-full rounded-md dark:border-gray-700 bg-violet-900 p-2  text-lg text-zinc-50"
                   >
                     Cadastrar
