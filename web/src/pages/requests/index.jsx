@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SidebarMenu from "../../components/sidebarMenu";
 import ModalNewProduct from "../../components/modal/modalNewProduct";
 import ModalNewRequest from "../../components/modal/modalNewRequest";
+import { ImBin } from "react-icons/im";
 
 export default function Requests() {
   const [openModal, setOpenModal] = useState(false)
@@ -48,7 +49,10 @@ export default function Requests() {
           </div>
         </fieldset>
       </form>
-    <div className="modal flex flex-col w-full ">Lista</div>
+    <div className="modal flex flex-col w-full ">Lista
+    <button className="font-bold text-lg flex flex-row items-center">Deletar Mesa < ImBin color="#814141" size={28} className="ml-2 rounded-md bg-zinc-300 p-1"/> </button>
+    
+    </div>
       <ModalNewRequest isOpen={openModal} setOpenModal={()=>setOpenModal(!openModal)}/>
     </section>
     

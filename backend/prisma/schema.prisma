@@ -39,6 +39,7 @@ model Product {
   name        String
   codigoProd  String  
   price       String
+  description String?
   
   created_at  DateTime? @default(now())
   updated_at  DateTime? @default(now())

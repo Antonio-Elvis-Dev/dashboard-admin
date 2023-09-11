@@ -3,7 +3,7 @@ import prismaClient from "../../prisma";
 interface ProductRequest {
   name: string;
   price: string;
-
+description:string;
   category_id: string;
   codigoProd: string;
 }
@@ -13,7 +13,8 @@ class CreateProductService {
     name,
     price,
     category_id,
-    codigoProd
+    codigoProd,
+    description
   }: ProductRequest) {
 
     const existsProduct = await prismaClient.product.findFirst(
@@ -32,7 +33,8 @@ class CreateProductService {
         name,
         price,
         category_id,
-        codigoProd
+        codigoProd,
+        description
       },
     });
     return product;

@@ -9,7 +9,7 @@ export default function Product() {
   const { searchProducts, products } = useContext(AuthContext);
 
   // const testeLista = [{"1","teste
-console.log(products)
+  console.log(products);
   const [teste, setTeste] = useState([
     { id: 1, cod: 1, nome: "teste", valor: "20,00" },
   ]);
@@ -17,9 +17,8 @@ console.log(products)
     setOpenModal(!openModal);
   }
 
-  
-  function handleSearchProduct(){
-    searchProducts()
+  function handleSearchProduct() {
+    searchProducts();
   }
   return (
     <div className="flex bg-zinc-300">
@@ -66,29 +65,48 @@ console.log(products)
             </div>
           </fieldset>
         </form>
-        <div className=" relative min-h-1 float-left pr-3 pl-3">
-          <table className=" w-full  table-auto	">
-            <thead>
-              <tr className="">
-                <th >Id</th>
-                <th>Cód</th>
-                <th>Nome</th>
-                <th>Valor</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((item, index) => (
-                <tr  key={index} className=" ">
-                  <td>{index+1}</td>
-                  <td>{item.codigoProd}</td>
-                  <td>{item.name}</td>
-                  <td>R${item.price}</td>
+        <div className=" pt-6 shadow rounded-md ">
+          <div className="px-4">
+            <h2 className="text-lg font-bold leading-6  text-gray-900">
+              Produtos cadastrados
+            </h2>
+          </div>
+          <div className="mt-6">
+            <table className=" w-full  divide-y divide-x divide-gray-200	">
+              <thead className="bg-gray-200">
+                <tr className="">
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Id
+                  </th>
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Cód
+                  </th>
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Nome
+                  </th>
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Valor
+                  </th>
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Descrição
+                  </th>
                 </tr>
-              ))}
-              
-             
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {products
+                  ? products.map((item, index) => (
+                      <tr key={index} className=" ">
+                        <td className=" px-6 py-4 text-sm font-bold text-gray-900 whitespace-nowrap">{index + 1}</td>
+                        <td  className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">{item.codigoProd}</td>
+                        <td  className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">{item.name}</td>
+                        <td  className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">R${item.price}</td>
+                        <td  className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">Teste</td>
+                      </tr>
+                    ))
+                  : null}
+              </tbody>
+            </table>
+          </div>
         </div>
         <ModalNewProduct
           isOpen={openModal}

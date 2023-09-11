@@ -11,6 +11,7 @@ export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
   const [nomeProd, setNomeProd] = useState("");
   const [valorProd, setValorProd] = useState("");
   const [categoryProd, setCategoryProd] = useState("");
+  const [descriProd, setDescriProd] = useState("");
 
   function handleCreateCategory() {
     createCategory(nomeCategory);
@@ -18,11 +19,12 @@ export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
     setNomeCategory("");
   }
   function handleCreateProduct() {
-    createProduct(codProd, nomeProd, valorProd, categoryProd);
+    createProduct(codProd, nomeProd, valorProd, categoryProd, descriProd);
     setCategoryProd("");
     setCodProd("");
     setNomeProd("");
     setValorProd("");
+    setDescriProd("")
   }
   if (isOpen) {
     return (
@@ -136,6 +138,19 @@ export default function ModalNewProduct({ isOpen, setOpenModal, children }) {
                     placeholder="valor"
                     value={valorProd}
                     onChange={(e) => setValorProd(e.target.value)}
+                    className="w-full rounded-md focus:ring focus:ri focus:ri text-zinc-950 dark:border-gray-700 dark:text-gray-900"
+                  />
+                </div>
+                <div className="col-span-full sm:col-span-3">
+                  <label htmlFor="valor" className="text-lg">
+                    Descrição
+                  </label>
+                  <input
+                    id="valor"
+                    type="text"
+                    placeholder="ex Coca 250ml"
+                    value={descriProd}
+                    onChange={(e) => setDescriProd(e.target.value)}
                     className="w-full rounded-md focus:ring focus:ri focus:ri text-zinc-950 dark:border-gray-700 dark:text-gray-900"
                   />
                 </div>

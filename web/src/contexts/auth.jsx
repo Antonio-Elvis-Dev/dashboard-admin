@@ -11,6 +11,7 @@ export default function AuthProvider({ children }) {
 
   const [categories, setCategories] = useState("");
   const [products, setProducts] = useState("");
+  const [order, setOrder] = useState("");
 
   const navigate = useNavigate();
 
@@ -22,8 +23,8 @@ export default function AuthProvider({ children }) {
     }
     api.defaults.headers["Authorization"] = `Bearer ${tokenCookie}`;
     searchCategory();
-    // searchProducts();
-  }, []);
+    searchProducts();
+  }, [order]);
 
   async function login(email, password) {
     try {
@@ -57,16 +58,52 @@ export default function AuthProvider({ children }) {
   }
 
   async function searchProducts() {
-
     try {
       let products = await api.get("/products");
 
       setProducts(products?.data);
-      console.log(products?.data);
     } catch (error) {
       console.log(error);
     }
   }
+
+  async function createOrder(name, table) {
+    try {
+      const response = await api.post("/order", {
+        name,
+        table: Number(table),
+      });
+
+      setOrder(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  // VERIFICAR ADD ITEM ORDER
+  
+
+
+  async function addItemOrder(productItem,qtdItem) {
+    if ( productItem == "" || qtdItem == "") {
+      alert("Campos Invalidos");
+    }
+    try {
+
+      // console.log(`${order_id} - ${productItem} - ${qtdItem}`);
+      const response = await api.post("/order/add", {
+        order_id:order?.id,
+        product_id:productItem,
+        amount:Number(qtdItem),
+      });
+
+      alert("Criou")
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function createCategory(name) {
     if (name == "") {
       alert("Nome inválido");
@@ -80,7 +117,7 @@ export default function AuthProvider({ children }) {
     }
   }
 
-  async function createProduct(codProd, name, price, category_id) {
+  async function createProduct(codProd, name, price, category_id, description) {
     if (name == "" || price == "" || category_id == "" || codProd == "") {
       alert("Campo invalido");
     } else {
@@ -90,6 +127,7 @@ export default function AuthProvider({ children }) {
           price,
           category_id,
           codigoProd: codProd,
+          description,
         });
         alert(`Produto "${response.data.name}" criado`);
       } catch (error) {
@@ -114,6 +152,9 @@ export default function AuthProvider({ children }) {
         searchProducts,
         createCategory,
         createProduct,
+        createOrder,
+        addItemOrder,
+        order,
         products,
         categories,
         signed: !!auth,
