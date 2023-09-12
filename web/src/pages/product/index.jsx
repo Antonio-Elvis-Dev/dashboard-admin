@@ -3,6 +3,13 @@ import SidebarMenu from "../../components/sidebarMenu";
 import ModalNewProduct from "../../components/modal/modalNewProduct";
 import { AuthContext } from "../../contexts/auth";
 
+import {
+  PiNotePencil,
+  PiTrash,
+  PiTrashFill,
+  PiTrashLight,
+} from "react-icons/pi";
+
 export default function Product() {
   const [openModal, setOpenModal] = useState(false);
 
@@ -10,9 +17,7 @@ export default function Product() {
 
   // const testeLista = [{"1","teste
   console.log(products);
-  const [teste, setTeste] = useState([
-    { id: 1, cod: 1, nome: "teste", valor: "20,00" },
-  ]);
+
   function handleOpenModal() {
     setOpenModal(!openModal);
   }
@@ -90,17 +95,38 @@ export default function Product() {
                   <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
                     Descrição
                   </th>
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Ações
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {products
                   ? products.map((item, index) => (
                       <tr key={index} className=" ">
-                        <td className=" px-6 py-4 text-sm font-bold text-gray-900 whitespace-nowrap">{index + 1}</td>
-                        <td  className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">{item.codigoProd}</td>
-                        <td  className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">{item.name}</td>
-                        <td  className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">R${item.price}</td>
-                        <td  className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">Teste</td>
+                        <td className=" px-6 py-4 text-sm font-bold text-gray-900 whitespace-nowrap">
+                          {index + 1}
+                        </td>
+                        <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                          {item.codigoProd}
+                        </td>
+                        <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                          {item.name}
+                        </td>
+                        <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                          R${item.price}
+                        </td>
+                        <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                          {item.description}
+                        </td>
+                        <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap flex flex-row">
+                          <button type="button">
+                            <PiNotePencil size={26} />
+                          </button>
+                          <button type="button">
+                            <PiTrash size={26} />
+                          </button>
+                        </td>
                       </tr>
                     ))
                   : null}

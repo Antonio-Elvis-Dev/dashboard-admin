@@ -49,9 +49,65 @@ export default function Requests() {
           </div>
         </fieldset>
       </form>
-    <div className="modal flex flex-col w-full ">Lista
-    <button className="font-bold text-lg flex flex-row items-center">Deletar Mesa < ImBin color="#814141" size={28} className="ml-2 rounded-md bg-zinc-300 p-1"/> </button>
-    
+    <div className=" pt-6 shadow rounded-md ">
+          <div className="px-4">
+            <h2 className="text-lg font-bold leading-6  text-gray-900">
+             Mesas Abertas
+            </h2>
+          </div>
+          <div className="mt-6">
+            <table className=" w-full  divide-y divide-x divide-gray-200	">
+              <thead className="bg-gray-200">
+                <tr className="">
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Id
+                  </th>
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Cód
+                  </th>
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Nome
+                  </th>
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Valor
+                  </th>
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Descrição
+                  </th>
+                  <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Ações
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {/* {products
+                  ? products.map((item, index) => ( */}
+                      <tr key={1} className=" ">
+                        <td className=" px-6 py-4 text-sm font-bold text-gray-900 whitespace-nowrap">
+                        teste 1
+                        </td>
+                        <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                        teste 1
+                        </td>
+                        <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                        teste 1
+                        </td>
+                        <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                        teste 1
+                        </td>
+                        <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                        teste 1
+                        </td>
+                        <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap flex flex-row">
+                          
+                        </td>
+                      </tr>
+                    {/* ))
+                  : null} */}
+              </tbody>
+            </table>
+          </div>
+        
     </div>
       <ModalNewRequest isOpen={openModal} setOpenModal={()=>setOpenModal(!openModal)}/>
     </section>

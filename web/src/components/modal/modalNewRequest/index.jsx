@@ -8,7 +8,6 @@ export default function ModalNewRequest({ isOpen, setOpenModal }) {
 
   let [nameClientOrder, setNameClientOrder] = useState("");
   let [numTableOrder, setNumTableOrder] = useState();
-  let [order_id, setOrder_id] = useState(order?.id)
   let [categoryItem, setCategoryItem] = useState();
   let [productItem, setProductItem] = useState();
   let [qtdItem, setQtdItem] = useState();
