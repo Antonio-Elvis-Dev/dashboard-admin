@@ -124,7 +124,7 @@ export default function AuthProvider({ children }) {
       try {
         const response = await api.post("/product", {
           name,
-          price,
+          price:Number(price),
           category_id,
           codigoProd: codProd,
           description,

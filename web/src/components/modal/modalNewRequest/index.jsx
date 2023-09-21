@@ -156,7 +156,7 @@ export default function ModalNewRequest({ isOpen, setOpenModal }) {
                   <button type="button" onClick={handleAddItemOrder} className="w-1/4 rounded-md dark:border-gray-700 bg-violet-900 p-2 text-zinc-50 py-3 text-lg">
                     Adicionar Item
                   </button>
-                  <button className="w-1/2 rounded-md dark:border-gray-700 bg-green-600 p-2 text-zinc-50 ml-3 py-3 text-lg">
+                  <button type="button" className="w-1/2 rounded-md dark:border-gray-700 bg-green-600 p-2 text-zinc-50 ml-3 py-3 text-lg">
                     Finalizar Pedido
                   </button>
                 </div>

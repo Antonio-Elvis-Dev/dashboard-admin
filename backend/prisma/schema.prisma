@@ -38,7 +38,7 @@ model Product {
   id          String    @id @default(uuid())
   name        String
   codigoProd  String  
-  price       String
+  price       Float
   description String?
   
   created_at  DateTime? @default(now())
