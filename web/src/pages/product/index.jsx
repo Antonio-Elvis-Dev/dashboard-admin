@@ -15,8 +15,7 @@ export default function Product() {
 
   const { searchProducts, products } = useContext(AuthContext);
 
-  // const testeLista = [{"1","teste
-  console.log(products);
+  
 
   function handleOpenModal() {
     setOpenModal(!openModal);

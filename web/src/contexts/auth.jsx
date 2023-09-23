@@ -12,7 +12,7 @@ export default function AuthProvider({ children }) {
   const [categories, setCategories] = useState("");
   const [products, setProducts] = useState("");
   const [order, setOrder] = useState("");
-
+  const [orders, setOrders] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function AuthProvider({ children }) {
     api.defaults.headers["Authorization"] = `Bearer ${tokenCookie}`;
     searchCategory();
     searchProducts();
-  }, [order]);
+  }, [order, orders]);
 
   async function login(email, password) {
     try {
@@ -67,6 +67,24 @@ export default function AuthProvider({ children }) {
     }
   }
 
+  async function listOrders() {
+    try {
+      let orders = await api.get("/orders");
+      setOrders(orders?.data)
+    } catch (error) {
+      console.log(error);
+    }
+
+    
+  }
+
+  async function orderDetails(){
+    try {
+      let ordersDetails = await api.get('/order/detail')
+    } catch (error) {
+      console.log(error)
+    }
+  }
   async function createOrder(name, table) {
     try {
       const response = await api.post("/order", {
@@ -80,25 +98,21 @@ export default function AuthProvider({ children }) {
     }
   }
 
-
   // VERIFICAR ADD ITEM ORDER
-  
 
-
-  async function addItemOrder(productItem,qtdItem) {
-    if ( productItem == "" || qtdItem == "") {
+  async function addItemOrder(productItem, qtdItem) {
+    if (productItem == "" || qtdItem == "") {
       alert("Campos Invalidos");
     }
     try {
-
       // console.log(`${order_id} - ${productItem} - ${qtdItem}`);
       const response = await api.post("/order/add", {
-        order_id:order?.id,
-        product_id:productItem,
-        amount:Number(qtdItem),
+        order_id: order?.id,
+        product_id: productItem,
+        amount: Number(qtdItem),
       });
 
-      alert("Criou")
+      alert("Criou");
     } catch (error) {
       console.log(error);
     }
@@ -124,7 +138,7 @@ export default function AuthProvider({ children }) {
       try {
         const response = await api.post("/product", {
           name,
-          price:Number(price),
+          price: Number(price),
           category_id,
           codigoProd: codProd,
           description,
@@ -150,11 +164,13 @@ export default function AuthProvider({ children }) {
         logout,
         searchCategory,
         searchProducts,
+        listOrders,
         createCategory,
         createProduct,
         createOrder,
         addItemOrder,
         order,
+        orders,
         products,
         categories,
         signed: !!auth,

@@ -4,7 +4,8 @@ import { ImBin } from "react-icons/im";
 import { AuthContext } from "../../../contexts/auth";
 
 export default function ModalNewRequest({ isOpen, setOpenModal }) {
-  const { createOrder, order, categories, products,addItemOrder } = useContext(AuthContext);
+  const { createOrder, order, categories, products, addItemOrder } =
+    useContext(AuthContext);
 
   let [nameClientOrder, setNameClientOrder] = useState("");
   let [numTableOrder, setNumTableOrder] = useState();
@@ -16,9 +17,8 @@ export default function ModalNewRequest({ isOpen, setOpenModal }) {
     createOrder(nameClientOrder, numTableOrder);
   }
 
- async function handleAddItemOrder(){
-    
-  await addItemOrder(productItem,qtdItem)
+  async function handleAddItemOrder() {
+    await addItemOrder(productItem, qtdItem);
   }
 
   if (isOpen) {
@@ -96,71 +96,82 @@ export default function ModalNewRequest({ isOpen, setOpenModal }) {
                 <p className="font-bold text-lg">Adicionar Item</p>
                 <p className="font-bold text-lg">Mesa {order?.table}</p>
               </div>
-              <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
-                <div className="col-span-full ">
-                  <label htmlFor="category" className="text-lg">
-                    Categoria:
-                  </label>
-                  <select
-                    className="bg-neutral-700 rounded-lg"
-                    value={categoryItem}
-                    onChange={(e) => setCategoryItem(e.target.value)}
-                  >
-                    <option value="" selected>
-                      Selecione Categoria
-                    </option>
-                    {categories.map((category, index) => (
-                      <option key={index} value={category?.id}>
-                        {category?.name}
+                <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-4">
+                  <div className="col-span-full ">
+                    <label htmlFor="category" className="text-lg">
+                      Categoria:
+                    </label>
+                    <select
+                      className="bg-neutral-700 rounded-lg"
+                      value={categoryItem}
+                      onChange={(e) => setCategoryItem(e.target.value)}
+                    >
+                      <option value="" selected>
+                        Selecione Categoria
                       </option>
-                    ))}
-                  </select>
-                </div>
+                      {categories.map((category, index) => (
+                        <option key={index} value={category?.id}>
+                          {category?.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                <div className="col-span-full sm:col-span-2">
-                  <label htmlFor="name" className="text-lg">
-                    Item
-                  </label>
-                  <select
-                    className="bg-neutral-700 rounded-lg"
-                    value={productItem}
-                    onChange={(e) => setProductItem(e.target.value)}
-                  >
-                    <option value="" selected>
-                      Selecione Categoria
-                    </option>
+                  <div className="col-span-full sm:col-span-3">
+                    <label htmlFor="name" className="text-lg">
+                      Item
+                    </label>
+                    <select
+                      className="bg-neutral-700 rounded-lg"
+                      value={productItem}
+                      onChange={(e) => setProductItem(e.target.value)}
+                    >
+                      <option value="" selected>
+                        Selecione Categoria
+                      </option>
 
-                    { products ? products.filter(e=>(e.category_id == categoryItem)).map((item,index)=>(
-                      <option key={index} value={item?.id}>
-                      {item?.name}
-                    </option>
-                    )): null}
-                  </select>
-                </div>
-                <div className="col-span-full sm:col-span-1">
-                  <label htmlFor="name" className="text-lg">
-                    Quantidade
-                  </label>
-                  <input
-                    id="qtd"
-                    value={qtdItem}
-                    onChange={(e)=>setQtdItem(e.target.value)}
-                    type="number"
-                    placeholder="qtd"
-
-                    className="w-full rounded-md text-zinc-950 focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
-                  />
+                      {products
+                        ? products
+                            .filter((e) => e.category_id == categoryItem)
+                            .map((item, index) => (
+                              <option key={index} value={item?.id}>
+                                {item?.name}
+                              </option>
+                            ))
+                        : null}
+                    </select>
+                  </div>
+                  <div className="col-span-full sm:col-span-3">
+                    <label htmlFor="name" className="text-lg">
+                      Quantidade
+                    </label>
+                    <input
+                      id="qtd"
+                      value={qtdItem}
+                      onChange={(e) => setQtdItem(e.target.value)}
+                      type="number"
+                      placeholder="qtd"
+                      className="w-full rounded-md text-zinc-950 focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                    />
+                  </div>
                 </div>
 
                 <div className=" flex col-span-6  items-center justify-center">
-                  <button type="button" onClick={handleAddItemOrder} className="w-1/4 rounded-md dark:border-gray-700 bg-violet-900 p-2 text-zinc-50 py-3 text-lg">
+                  <button
+                    type="button"
+                    onClick={handleAddItemOrder}
+                    className="w-1/4 rounded-md dark:border-gray-700 bg-violet-900 p-2 text-zinc-50 py-3 text-lg"
+                  >
                     Adicionar Item
                   </button>
-                  <button type="button" className="w-1/2 rounded-md dark:border-gray-700 bg-green-600 p-2 text-zinc-50 ml-3 py-3 text-lg">
+                  <button
+                    type="button"
+                    className="w-1/2 rounded-md dark:border-gray-700 bg-green-600 p-2 text-zinc-50 ml-3 py-3 text-lg"
+                  >
                     Finalizar Pedido
                   </button>
                 </div>
-              </div>
+              
             </fieldset>
           </form>
         </section>
