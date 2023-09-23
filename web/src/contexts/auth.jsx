@@ -78,12 +78,19 @@ export default function AuthProvider({ children }) {
     
   }
 
-  async function orderDetails(){
+  async function orderDetails(id){
+   
     try {
-      let ordersDetails = await api.get('/order/detail')
+      let ordersDetails = await api.get('/order/detail',{
+        params:{
+          order_id:id
+        }
+      })
+      console.log(ordersDetails.data)
     } catch (error) {
       console.log(error)
     }
+
   }
   async function createOrder(name, table) {
     try {
@@ -165,6 +172,7 @@ export default function AuthProvider({ children }) {
         searchCategory,
         searchProducts,
         listOrders,
+        orderDetails,
         createCategory,
         createProduct,
         createOrder,

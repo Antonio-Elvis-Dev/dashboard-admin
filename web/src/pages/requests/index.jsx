@@ -8,7 +8,7 @@ import { PiNotePencil, PiTrash } from "react-icons/pi";
 
 export default function Requests() {
   const [openModal, setOpenModal] = useState(false);
-  const { listOrders, orders, products, searchProducts } =
+  const { listOrders, orders, orderDetails, searchProducts } =
     useContext(AuthContext);
 
   function handleOpenModal() {
@@ -31,7 +31,7 @@ export default function Requests() {
   }
 
   async function handleDetailOrder(id){
-    console.log(id)
+    orderDetails(id)
   }
   return (
     <div className="flex bg-zinc-300">
