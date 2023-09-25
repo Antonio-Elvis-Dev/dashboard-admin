@@ -5,14 +5,22 @@ import ModalNewRequest from "../../components/modal/modalNewRequest";
 import { ImBin } from "react-icons/im";
 import { AuthContext } from "../../contexts/auth";
 import { PiNotePencil, PiTrash } from "react-icons/pi";
+import ModalOrderDetail from "../../components/modal/modalOrderDetail";
 
 export default function Requests() {
-  const [openModal, setOpenModal] = useState(false);
+  const [openModalNewRequest, setOpenModalNewRequest] = useState(false);
+  const [openModalOrderDetail, setOpenModalOrderDetail] = useState(false);
+
+  const [orderId, setOrderId] = useState("");
+
   const { listOrders, orders, orderDetails, searchProducts } =
     useContext(AuthContext);
 
-  function handleOpenModal() {
-    setOpenModal(!openModal);
+  function handleOpenModalNewRequest() {
+    setOpenModalNewRequest(!openModalNewRequest);
+  }
+  function handleOpenModalOrderDetail() {
+    setOpenModalOrderDetail(!openModalOrderDetail);
   }
 
   function handleListOrders() {
@@ -21,17 +29,18 @@ export default function Requests() {
   }
 
   function handleListTotal(id) {
-   orders.forEach(order => {
-    order.items.forEach(item=>{
-      if(id == item.order_id){
-        console.log(item.product_id)
-      }
-    })
-   })
+    orders.forEach((order) => {
+      order.items.forEach((item) => {
+        if (id == item.order_id) {
+          console.log(item.product_id);
+        }
+      });
+    });
   }
 
-  async function handleDetailOrder(id){
-    orderDetails(id)
+  async function handleDetailOrder(id) {
+    setOrderId(id);
+    handleOpenModalOrderDetail();
   }
   return (
     <div className="flex bg-zinc-300">
@@ -70,7 +79,7 @@ export default function Requests() {
                 <button
                   type="button"
                   className="w-1/3 rounded-md dark:border-gray-700 bg-green-700 p-2 text-zinc-50 text-lg hover:bg-green-500 transition duration-500"
-                  onClick={handleOpenModal}
+                  onClick={handleOpenModalNewRequest}
                 >
                   Novo Pedido
                 </button>
@@ -97,7 +106,7 @@ export default function Requests() {
                   <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
                     Nome
                   </th>
-                 
+
                   <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
                     Status
                   </th>
@@ -109,9 +118,13 @@ export default function Requests() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {orders
                   ? orders.map((item, index) => (
-                      <tr className="cursor-pointer" key={index}  onClick={()=>handleDetailOrder(item.id)}  >
+                      <tr
+                        className="cursor-pointer"
+                        key={index}
+                        onClick={() => handleDetailOrder(item.id)}
+                      >
                         <td className=" px-6 py-4 text-sm font-bold text-gray-900 whitespace-nowrap">
-                          {index}
+                          {index + 1}
                         </td>
                         <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
                           {item?.table}
@@ -119,7 +132,7 @@ export default function Requests() {
                         <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
                           {item?.name}
                         </td>
-                        
+
                         <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
                           {item?.status == true ? "Conluído" : "Não concluído"}
                         </td>
@@ -127,7 +140,7 @@ export default function Requests() {
                           <button type="button">
                             <PiNotePencil size={26} />
                           </button>
-                          <button type="button" onClick={()=>{}}>
+                          <button type="button" onClick={() => {}}>
                             <PiTrash size={26} />
                           </button>
                         </td>
@@ -139,8 +152,13 @@ export default function Requests() {
           </div>
         </div>
         <ModalNewRequest
-          isOpen={openModal}
-          setOpenModal={() => setOpenModal(!openModal)}
+          isOpen={openModalNewRequest}
+          setOpenModal={() => handleOpenModalNewRequest(!openModalNewRequest)}
+        />
+        <ModalOrderDetail
+          isOpen={openModalOrderDetail}
+          orderId={orderId}
+          setOpenModal={() => setOpenModalOrderDetail(!openModalOrderDetail)}
         />
       </section>
     </div>

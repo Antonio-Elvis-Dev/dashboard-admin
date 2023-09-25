@@ -13,6 +13,7 @@ export default function AuthProvider({ children }) {
   const [products, setProducts] = useState("");
   const [order, setOrder] = useState("");
   const [orders, setOrders] = useState("");
+  const [orderDetail, setOrderDetail] = useState("")
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function AuthProvider({ children }) {
     api.defaults.headers["Authorization"] = `Bearer ${tokenCookie}`;
     searchCategory();
     searchProducts();
+    searchOrderDetail()
   }, [order, orders]);
 
   async function login(email, password) {
@@ -77,6 +79,21 @@ export default function AuthProvider({ children }) {
 
     
   }
+
+
+  async function searchOrderDetail(){
+    const id = '440e4d21-5aff-43af-8a7d-f66f440a91d6'
+    try {
+      const order = await api.get('/order/detail',{params:{
+        order_id : id   
+      }})
+      setOrderDetail(order?.data)
+      console.log(order?.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   async function orderDetails(id){
    
@@ -177,6 +194,7 @@ export default function AuthProvider({ children }) {
         createProduct,
         createOrder,
         addItemOrder,
+        searchOrderDetail,orderDetail,
         order,
         orders,
         products,

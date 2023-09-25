@@ -2,9 +2,11 @@ import React, { useContext, useState } from "react";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { ImBin } from "react-icons/im";
 import { AuthContext } from "../../../contexts/auth";
+import ListItens from "../../listItens";
+import { api } from "../../../services/api";
 
-export default function ModalOrderDetail({ isOpen, setOpenModal }) {
-  const { createOrder, order, categories, products, addItemOrder } =
+export default function ModalOrderDetail({ isOpen, setOpenModal, orderId }) {
+  const { order, categories, products, addItemOrder } =
     useContext(AuthContext);
 
   let [nameClientOrder, setNameClientOrder] = useState("");
@@ -13,8 +15,14 @@ export default function ModalOrderDetail({ isOpen, setOpenModal }) {
   let [productItem, setProductItem] = useState();
   let [qtdItem, setQtdItem] = useState();
 
-  function handleCreateOrder() {
-    createOrder(nameClientOrder, numTableOrder);
+  async function handleDetail(){
+    const details = await api.get('/order/detail',{
+      params:{
+        order_id:orderId
+      }
+    })
+    console.log(details.data)
+
   }
 
   async function handleAddItemOrder() {
@@ -38,54 +46,7 @@ export default function ModalOrderDetail({ isOpen, setOpenModal }) {
               <AiFillCloseSquare size={30} />
             </button>
           </div>
-          <form
-            noValidate=""
-            action=""
-            className=" flex flex-col mx-auto space-y-12"
-          >
-            <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-900">
-              <div className="space-y-2 col-span-full lg:col-span-1">
-                <p className="font-bold text-lg">Abrir Mesa</p>
-              </div>
-              <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
-                <div className="col-span-full sm:col-span-3">
-                  <label htmlFor="codigo" className="text-lg">
-                    Nº da Mesa
-                  </label>
-                  <input
-                    id="codigo"
-                    type="number"
-                    value={numTableOrder}
-                    onChange={(e) => setNumTableOrder(e.target.value)}
-                    className="w-full text-zinc-950 rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
-                  />
-                </div>
-                <div className="col-span-full sm:col-span-3">
-                  <label htmlFor="nameClient" className="text-lg">
-                    Nome do Cliente
-                  </label>
-                  <input
-                    id="codigo"
-                    type="text"
-                    value={nameClientOrder}
-                    onChange={(e) => setNameClientOrder(e.target.value)}
-                    placeholder="opcional"
-                    className="w-full text-zinc-950  rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
-                  />
-                </div>
 
-                <div className="col-span-full  items-center justify-center">
-                  <button
-                    type="button"
-                    onClick={handleCreateOrder}
-                    className="w-full rounded-md dark:border-gray-700 bg-violet-900 p-2 text-zinc-50 text-lg"
-                  >
-                    Abrir Mesa
-                  </button>
-                </div>
-              </div>
-            </fieldset>
-          </form>
           <form
             noValidate=""
             action=""
@@ -96,84 +57,92 @@ export default function ModalOrderDetail({ isOpen, setOpenModal }) {
                 <p className="font-bold text-lg">Adicionar Item</p>
                 <p className="font-bold text-lg">Mesa {order?.table}</p>
               </div>
-                <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-4">
-                  <div className="col-span-full ">
-                    <label htmlFor="category" className="text-lg">
-                      Categoria:
-                    </label>
-                    <select
-                      className="bg-neutral-700 rounded-lg"
-                      value={categoryItem}
-                      onChange={(e) => setCategoryItem(e.target.value)}
-                    >
-                      <option value="" selected>
-                        Selecione Categoria
+              <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-4">
+                <div className="col-span-full ">
+                  <label htmlFor="category" className="text-lg">
+                    Categoria:
+                  </label>
+                  <select
+                    className="bg-neutral-700 rounded-lg"
+                    value={categoryItem}
+                    onChange={(e) => setCategoryItem(e.target.value)}
+                  >
+                    <option value="" selected>
+                      Selecione Categoria
+                    </option>
+                    {categories.map((category, index) => (
+                      <option key={index} value={category?.id}>
+                        {category?.name}
                       </option>
-                      {categories.map((category, index) => (
-                        <option key={index} value={category?.id}>
-                          {category?.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="col-span-full sm:col-span-3">
-                    <label htmlFor="name" className="text-lg">
-                      Item
-                    </label>
-                    <select
-                      className="bg-neutral-700 rounded-lg"
-                      value={productItem}
-                      onChange={(e) => setProductItem(e.target.value)}
-                    >
-                      <option value="" selected>
-                        Selecione Categoria
-                      </option>
-
-                      {products
-                        ? products
-                            .filter((e) => e.category_id == categoryItem)
-                            .map((item, index) => (
-                              <option key={index} value={item?.id}>
-                                {item?.name}
-                              </option>
-                            ))
-                        : null}
-                    </select>
-                  </div>
-                  <div className="col-span-full sm:col-span-3">
-                    <label htmlFor="name" className="text-lg">
-                      Quantidade
-                    </label>
-                    <input
-                      id="qtd"
-                      value={qtdItem}
-                      onChange={(e) => setQtdItem(e.target.value)}
-                      type="number"
-                      placeholder="qtd"
-                      className="w-full rounded-md text-zinc-950 focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
-                    />
-                  </div>
+                    ))}
+                  </select>
                 </div>
 
-                <div className=" flex col-span-6  items-center justify-center">
-                  <button
-                    type="button"
-                    onClick={handleAddItemOrder}
-                    className="w-1/4 rounded-md dark:border-gray-700 bg-violet-900 p-2 text-zinc-50 py-3 text-lg"
+                <div className="col-span-full sm:col-span-3">
+                  <label htmlFor="name" className="text-lg">
+                    Item
+                  </label>
+                  <select
+                    className="bg-neutral-700 rounded-lg"
+                    value={productItem}
+                    onChange={(e) => setProductItem(e.target.value)}
                   >
-                    Adicionar Item
-                  </button>
-                  <button
-                    type="button"
-                    className="w-1/2 rounded-md dark:border-gray-700 bg-green-600 p-2 text-zinc-50 ml-3 py-3 text-lg"
-                  >
-                    Finalizar Pedido
-                  </button>
+                    <option value="" selected>
+                      Selecione Categoria
+                    </option>
+
+                    {products
+                      ? products
+                          .filter((e) => e.category_id == categoryItem)
+                          .map((item, index) => (
+                            <option key={index} value={item?.id}>
+                              {item?.name}
+                            </option>
+                          ))
+                      : null}
+                  </select>
                 </div>
-              
+                <div className="col-span-full sm:col-span-3">
+                  <label htmlFor="name" className="text-lg">
+                    Quantidade
+                  </label>
+                  <input
+                    id="qtd"
+                    value={qtdItem}
+                    onChange={(e) => setQtdItem(e.target.value)}
+                    type="number"
+                    placeholder="qtd"
+                    className="w-full rounded-md text-zinc-950 focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                  />
+                </div>
+              </div>
+
+              <div className=" flex col-span-6  items-center justify-center">
+                <button
+                  type="button"
+                  onClick={handleAddItemOrder}
+                  className="w-1/4 rounded-md dark:border-gray-700 bg-violet-900 p-2 text-zinc-50 py-3 text-lg"
+                >
+                  Adicionar Item
+                </button>
+                <button
+                  type="button"
+                  className="w-1/2 rounded-md dark:border-gray-700 bg-green-600 p-2 text-zinc-50 ml-3 py-3 text-lg"
+                >
+                  Finalizar Pedido
+                </button>
+              </div>
             </fieldset>
           </form>
+          <div className="flex flex-col mx-auto space-y-12">
+            <div className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-900">
+              <h2 className="text-lg">Itens</h2>
+
+              <div className=" ">
+                <ListItens orderId={orderId}/>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     );
