@@ -25,7 +25,7 @@ export default function AuthProvider({ children }) {
     api.defaults.headers["Authorization"] = `Bearer ${tokenCookie}`;
     searchCategory();
     searchProducts();
-    searchOrderDetail()
+   
   }, [order, orders]);
 
   async function login(email, password) {
@@ -81,34 +81,34 @@ export default function AuthProvider({ children }) {
   }
 
 
-  async function searchOrderDetail(){
-    const id = '440e4d21-5aff-43af-8a7d-f66f440a91d6'
-    try {
-      const order = await api.get('/order/detail',{params:{
-        order_id : id   
-      }})
-      setOrderDetail(order?.data)
-      console.log(order?.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // async function searchOrderDetail(id){
+  //   // const id = '440e4d21-5aff-43af-8a7d-f66f440a91d6'
+  //   try {
+  //     const order = await api.get('/order/detail',{params:{
+  //       order_id : id   
+  //     }})
+  //     setOrderDetail(order?.data)
+  //     // console.log(order?.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-
-  async function orderDetails(id){
+ 
+  // async function orderDetails(id){
    
-    try {
-      let ordersDetails = await api.get('/order/detail',{
-        params:{
-          order_id:id
-        }
-      })
-      console.log(ordersDetails.data)
-    } catch (error) {
-      console.log(error)
-    }
+  //   try {
+  //     let ordersDetails = await api.get('/order/detail',{
+  //       params:{
+  //         order_id:id
+  //       }
+  //     })
+  //     // console.log(ordersDetails.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
 
-  }
+  // }
   async function createOrder(name, table) {
     try {
       const response = await api.post("/order", {
@@ -189,12 +189,13 @@ export default function AuthProvider({ children }) {
         searchCategory,
         searchProducts,
         listOrders,
-        orderDetails,
+        // orderDetails,
         createCategory,
         createProduct,
         createOrder,
         addItemOrder,
-        searchOrderDetail,orderDetail,
+        // searchOrderDetail,
+        orderDetail,
         order,
         orders,
         products,

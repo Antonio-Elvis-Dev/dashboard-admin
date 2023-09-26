@@ -6,14 +6,15 @@ import { ImBin } from "react-icons/im";
 import { AuthContext } from "../../contexts/auth";
 import { PiNotePencil, PiTrash } from "react-icons/pi";
 import ModalOrderDetail from "../../components/modal/modalOrderDetail";
+import { api } from "../../services/api";
 
 export default function Requests() {
   const [openModalNewRequest, setOpenModalNewRequest] = useState(false);
   const [openModalOrderDetail, setOpenModalOrderDetail] = useState(false);
 
-  const [orderId, setOrderId] = useState("");
+  const [modalItem, setModalItem] = useState("");
 
-  const { listOrders, orders, orderDetails, searchProducts } =
+  const { listOrders, orders, orderDetails, searchProducts,searchOrderDetail } =
     useContext(AuthContext);
 
   function handleOpenModalNewRequest() {
@@ -28,18 +29,17 @@ export default function Requests() {
     searchProducts();
   }
 
-  function handleListTotal(id) {
-    orders.forEach((order) => {
-      order.items.forEach((item) => {
-        if (id == item.order_id) {
-          console.log(item.product_id);
-        }
-      });
-    });
-  }
-
+  
   async function handleDetailOrder(id) {
-    setOrderId(id);
+    
+
+    const details = await api.get("/order/detail", {
+      params: {
+        order_id: id,
+      },
+    });
+    setModalItem(details?.data);
+
     handleOpenModalOrderDetail();
   }
   return (
@@ -157,7 +157,7 @@ export default function Requests() {
         />
         <ModalOrderDetail
           isOpen={openModalOrderDetail}
-          orderId={orderId}
+          modalItem={modalItem}
           setOpenModal={() => setOpenModalOrderDetail(!openModalOrderDetail)}
         />
       </section>

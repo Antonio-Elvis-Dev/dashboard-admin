@@ -1,29 +1,37 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { ImBin } from "react-icons/im";
 import { AuthContext } from "../../../contexts/auth";
 import ListItens from "../../listItens";
 import { api } from "../../../services/api";
+import { PiTrash } from "react-icons/pi";
 
-export default function ModalOrderDetail({ isOpen, setOpenModal, orderId }) {
-  const { order, categories, products, addItemOrder } =
-    useContext(AuthContext);
+export default function ModalOrderDetail({ isOpen, setOpenModal, modalItem }) {
+  const { order, categories, products, addItemOrder } = useContext(AuthContext);
 
   let [nameClientOrder, setNameClientOrder] = useState("");
   let [numTableOrder, setNumTableOrder] = useState();
   let [categoryItem, setCategoryItem] = useState();
   let [productItem, setProductItem] = useState();
   let [qtdItem, setQtdItem] = useState();
+  let [total, setTotal] = useState();
 
-  async function handleDetail(){
-    const details = await api.get('/order/detail',{
-      params:{
-        order_id:orderId
+  useEffect(() => {
+
+    function valorTotal() {
+    if (modalItem) {
+      
+      
+        let somaTotal = modalItem.map((item) => item.product.price * item.amount);
+        
+        let total = somaTotal.reduce(function (acumulador, value) {
+          return acumulador + value;
+        });
+        setTotal(total);
       }
-    })
-    console.log(details.data)
-
-  }
+    }
+    valorTotal()
+  });
 
   async function handleAddItemOrder() {
     await addItemOrder(productItem, qtdItem);
@@ -135,11 +143,55 @@ export default function ModalOrderDetail({ isOpen, setOpenModal, orderId }) {
             </fieldset>
           </form>
           <div className="flex flex-col mx-auto space-y-12">
-            <div className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-900">
+            <div className="grid  gap-6 p-6 rounded-md shadow-sm dark:bg-gray-900">
               <h2 className="text-lg">Itens</h2>
 
-              <div className=" ">
-                <ListItens orderId={orderId}/>
+              <div className=" p-5 border  rounded-md">
+                <table className=" w-full  divide-y divide-x divide-gray-200	">
+                  <thead className="bg-gray-200">
+                    <tr className="">
+                      <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                        Produto
+                      </th>
+
+                      <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                        Valor
+                      </th>
+                      <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                        Quantidade
+                      </th>
+                      <th className="px-6 py-3 text-lef text-sm font-bold text-gray-500 uppercase tracking-wider">
+                        Ações
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {modalItem
+                      ? modalItem.map((item, index) => (
+                          <tr className="" key={index}>
+                            <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                              {item?.product.name}
+                            </td>
+
+                            <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                              R$ {item?.product.price}
+                            </td>
+                            <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                              {item?.amount}
+                            </td>
+                            <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap flex flex-row">
+                              <button type="button" onClick={() => {}}>
+                                <PiTrash size={26} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                        : null}
+                        
+                  </tbody>
+
+                </table>
+                <p>R$ {total}</p>
               </div>
             </div>
           </div>
