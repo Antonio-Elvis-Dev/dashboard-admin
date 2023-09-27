@@ -6,11 +6,9 @@ import ListItens from "../../listItens";
 import { api } from "../../../services/api";
 import { PiTrash } from "react-icons/pi";
 
-export default function ModalOrderDetail({ isOpen, setOpenModal, modalItem }) {
-  const { order, categories, products, addItemOrder } = useContext(AuthContext);
+export default function ModalOrderDetail({ isOpen, setOpenModal, modalItem, getOrder }) {
+  const {  categories, products, addItemOrderDetail } = useContext(AuthContext);
 
-  let [nameClientOrder, setNameClientOrder] = useState("");
-  let [numTableOrder, setNumTableOrder] = useState();
   let [categoryItem, setCategoryItem] = useState();
   let [productItem, setProductItem] = useState();
   let [qtdItem, setQtdItem] = useState();
@@ -20,7 +18,6 @@ export default function ModalOrderDetail({ isOpen, setOpenModal, modalItem }) {
 
     function valorTotal() {
     if (modalItem) {
-      
       
         let somaTotal = modalItem.map((item) => item.product.price * item.amount);
         
@@ -34,7 +31,7 @@ export default function ModalOrderDetail({ isOpen, setOpenModal, modalItem }) {
   });
 
   async function handleAddItemOrder() {
-    await addItemOrder(productItem, qtdItem);
+    await addItemOrderDetail(productItem, qtdItem, getOrder[0].id );
   }
 
   if (isOpen) {
@@ -63,7 +60,7 @@ export default function ModalOrderDetail({ isOpen, setOpenModal, modalItem }) {
             <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-900">
               <div className="space-y-2 col-span-full lg:col-span-1 ">
                 <p className="font-bold text-lg">Adicionar Item</p>
-                <p className="font-bold text-lg">Mesa {order?.table}</p>
+                <p className="font-bold text-lg">Mesa {getOrder[0].table} </p>
               </div>
               <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-4">
                 <div className="col-span-full ">

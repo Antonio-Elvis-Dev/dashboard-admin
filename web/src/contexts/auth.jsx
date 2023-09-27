@@ -142,6 +142,24 @@ export default function AuthProvider({ children }) {
     }
   }
 
+  async function addItemOrderDetail(productItem, qtdItem, order_id) {
+    if (productItem == "" || qtdItem == "") {
+      alert("Campos Invalidos");
+    }
+    try {
+      // console.log(`${order_id} - ${productItem} - ${qtdItem}`);
+      const response = await api.post("/order/add", {
+        order_id,
+        product_id: productItem,
+        amount: Number(qtdItem),
+      });
+
+      alert("Criou");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function createCategory(name) {
     if (name == "") {
       alert("Nome inválido");
@@ -189,7 +207,7 @@ export default function AuthProvider({ children }) {
         searchCategory,
         searchProducts,
         listOrders,
-        // orderDetails,
+        addItemOrderDetail,
         createCategory,
         createProduct,
         createOrder,

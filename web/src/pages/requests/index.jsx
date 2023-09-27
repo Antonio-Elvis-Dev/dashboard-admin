@@ -13,6 +13,7 @@ export default function Requests() {
   const [openModalOrderDetail, setOpenModalOrderDetail] = useState(false);
 
   const [modalItem, setModalItem] = useState("");
+  const [getOrder, setGetOrder] = useState("")
 
   const { listOrders, orders, orderDetails, searchProducts,searchOrderDetail } =
     useContext(AuthContext);
@@ -38,7 +39,11 @@ export default function Requests() {
         order_id: id,
       },
     });
+
+    const addItem = await api.get("/orders")
+
     setModalItem(details?.data);
+    setGetOrder(addItem?.data.filter((item)=> item.id == id))
 
     handleOpenModalOrderDetail();
   }
@@ -158,6 +163,7 @@ export default function Requests() {
         <ModalOrderDetail
           isOpen={openModalOrderDetail}
           modalItem={modalItem}
+          getOrder = {getOrder}
           setOpenModal={() => setOpenModalOrderDetail(!openModalOrderDetail)}
         />
       </section>
