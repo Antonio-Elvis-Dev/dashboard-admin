@@ -160,6 +160,27 @@ export default function AuthProvider({ children }) {
     }
   }
 
+  async function deleteItemOrder(id){
+    const deleteItem = await api.delete('/order/remove',{
+      params:{
+        item_id:id
+      },
+      // headers:{
+      //   Authorization:`Bearer ${auth}`
+      // }
+      })
+      console.log("Removeu")
+  }
+
+  async function deleteOrder(id){
+    const deleteItem = await api.delete("/order",{
+      params:{
+        order_id : id
+      }
+    })
+    console.log("Deletou")
+  }
+
   async function createCategory(name) {
     if (name == "") {
       alert("Nome inválido");
@@ -212,7 +233,8 @@ export default function AuthProvider({ children }) {
         createProduct,
         createOrder,
         addItemOrder,
-        // searchOrderDetail,
+        deleteItemOrder,
+        deleteOrder,
         orderDetail,
         order,
         orders,

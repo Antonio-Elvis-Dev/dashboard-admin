@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SidebarMenu from "../../components/sidebarMenu";
 import ModalNewProduct from "../../components/modal/modalNewProduct";
 import ModalNewRequest from "../../components/modal/modalNewRequest";
@@ -15,9 +15,16 @@ export default function Requests() {
   const [modalItem, setModalItem] = useState("");
   const [getOrder, setGetOrder] = useState("")
 
-  const { listOrders, orders, orderDetails, searchProducts,searchOrderDetail } =
+  const { listOrders, orders, searchProducts,deleteOrder } =
     useContext(AuthContext);
 
+
+    useEffect(()=>{
+      
+    })
+
+
+    
   function handleOpenModalNewRequest() {
     setOpenModalNewRequest(!openModalNewRequest);
   }
@@ -25,9 +32,15 @@ export default function Requests() {
     setOpenModalOrderDetail(!openModalOrderDetail);
   }
 
-  function handleListOrders() {
+  async function handleListOrders() {
     listOrders();
     searchProducts();
+  }
+
+  async function handleDeleteOrder(id){
+    deleteOrder(id)
+
+    // console.log(id)
   }
 
   
@@ -124,9 +137,7 @@ export default function Requests() {
                 {orders
                   ? orders.map((item, index) => (
                       <tr
-                        className="cursor-pointer"
                         key={index}
-                        onClick={() => handleDetailOrder(item.id)}
                       >
                         <td className=" px-6 py-4 text-sm font-bold text-gray-900 whitespace-nowrap">
                           {index + 1}
@@ -142,10 +153,12 @@ export default function Requests() {
                           {item?.status == true ? "Conluído" : "Não concluído"}
                         </td>
                         <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap flex flex-row">
-                          <button type="button">
-                            <PiNotePencil size={26} />
+                          <button type="button" className="cursor-pointer"
+                        onClick={() => handleDetailOrder(item.id)}
+                        >
+                            <PiNotePencil size={26}  />
                           </button>
-                          <button type="button" onClick={() => {}}>
+                          <button type="button" onClick={() => {handleDeleteOrder(item.id)}}>
                             <PiTrash size={26} />
                           </button>
                         </td>

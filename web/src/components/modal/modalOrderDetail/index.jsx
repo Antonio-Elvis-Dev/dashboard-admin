@@ -7,7 +7,7 @@ import { api } from "../../../services/api";
 import { PiTrash } from "react-icons/pi";
 
 export default function ModalOrderDetail({ isOpen, setOpenModal, modalItem, getOrder }) {
-  const {  categories, products, addItemOrderDetail } = useContext(AuthContext);
+  const {  categories, products, addItemOrderDetail, deleteItemOrder } = useContext(AuthContext);
 
   let [categoryItem, setCategoryItem] = useState();
   let [productItem, setProductItem] = useState();
@@ -34,6 +34,9 @@ export default function ModalOrderDetail({ isOpen, setOpenModal, modalItem, getO
     await addItemOrderDetail(productItem, qtdItem, getOrder[0].id );
   }
 
+  async function handleDeleteItemOrder(id){
+    deleteItemOrder(id)
+  }
   if (isOpen) {
     return (
       <div
@@ -177,7 +180,7 @@ export default function ModalOrderDetail({ isOpen, setOpenModal, modalItem, getO
                               {item?.amount}
                             </td>
                             <td className=" px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap flex flex-row">
-                              <button type="button" onClick={() => {}}>
+                              <button type="button" onClick={() => {handleDeleteItemOrder(item?.product.id)}}>
                                 <PiTrash size={26} />
                               </button>
                             </td>
